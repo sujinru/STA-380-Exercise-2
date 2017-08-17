@@ -1,3 +1,6 @@
+Author Attribution
+====================
+
 To set up the analysis, the first step is to read in all associated text
 files and create related functions.
 
@@ -140,7 +143,7 @@ components in PCA, we have further increased our accuracy to 50.12%
     
 
 Model 2 RandomForest
-====================
+---------------------
 
 The second model selected was RandomForest. In terms of both saving
 computational cost and remaining a relatively high accuracy, we choose
