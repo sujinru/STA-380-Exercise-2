@@ -77,7 +77,7 @@ The first model selected is Naive Bayes. Before we put data into model, we consi
 3. TF-IDF <br/>
 4. PCA <br/>
 
-For action 1, we assigned different percentage to test which generates the highest accuracy in naive bayes. According to the plot, 0.895 is our best choice as the percentage, which gives the accuracy of 37.5%.
+For action 1, we assigned different percentage to test which generates the highest accuracy in naive bayes. According to the plot, 0.895 is our best choice as the percentage, which gives the accuracy of 30.2%.
 ```{r test_term_percentage}
 acc = NULL
 per_list = seq(0.875, 0.925, 0.01)
@@ -88,19 +88,19 @@ for (i in per_list){
 }
 plot(per_list, acc, type='b', ylab='Accuracy', xlab='Percentage Threshold')
 DTM = removeSparseTerms(DTM, 0.895)
+max(acc)
 ```
 
 The next step is to set the threshold for the minimum count for the bag of words. Mutiple thresholds have been tested, but no significant improvement on the accuracy rate. Therefore, the action 2 will not be taken. 
 
-After applying TF-IDF processing, the third tool, to the dataset, its accuracy increases to 43.56%
+After applying TF-IDF processing, the third tool, to the dataset, its accuracy increases to 36.2%. Therefore, we decide to adopt TF-IDF.
 ```{r tfidf}
 X = as.matrix(DTM)
 TF <- X / rowSums(X)
 EXI_NUM<-apply(X>0, 2, function(x){table(x)['TRUE']})
-IDF<-as.numeric(1 + log(nrow(X)/EXI_NUM))
+IDF<-as.numeric(log(nrow(X)/EXI_NUM + 1))
 TFIDF = data.frame(t(t(TF)*IDF))
-test(as.matrix(TFIDF))
-X = TFIDF
+X <- TFIDF
 ```
 
 The last tool we consider is PCA. PCA requires to select the optimal number of principal components. Therefore, we draw the following plot to illustrate the cumulative variance represented for different number of components. However, we cannot find the "elbow" point on the curve, so we tested multiple options mannually.
@@ -109,9 +109,9 @@ pca = prcomp(X, scale=TRUE)
 plot(cumsum((pca$sdev)^2)/sum(pca$sdev^2), pch=19, cex=0.1, ylab='Cumulative Variance', xlab='Number of Components' )
 ```
 
-According to below curve, when we select the 105 most important components in PCA, we have further increased our accuracy to 50.12%
+According to below curve, when we select the 124 most important components in PCA, we have further increased our accuracy to 43.76%.
 ```{r pca_}
-pca_list = seq(101, 110, 1)
+pca_list = seq(115, 125, 1)
 acc = NULL
 for (i in pca_list){
   X_test = pca$x[, 1:i]
@@ -119,4 +119,5 @@ for (i in pca_list){
 }
 plot(pca_list, acc, type='b', ylab='Accuracy', xlab='Number of Components')
 X = pca$x[, 1:105]
+max(acc)
 ```

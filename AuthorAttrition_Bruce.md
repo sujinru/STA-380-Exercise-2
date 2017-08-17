@@ -78,7 +78,7 @@ PCA <br/>
 
 For action 1, we assigned different percentage to test which generates
 the highest accuracy in naive bayes. According to the plot, 0.895 is our
-best choice as the percentage, which gives the accuracy of 37.5%.
+best choice as the percentage, which gives the accuracy of 30.2%.
 
     acc = NULL
     per_list = seq(0.875, 0.925, 0.01)
@@ -92,6 +92,9 @@ best choice as the percentage, which gives the accuracy of 37.5%.
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/test_term_percentage-1.png)
 
     DTM = removeSparseTerms(DTM, 0.895)
+    max(acc)
+
+    ## [1] 0.302
 
 The next step is to set the threshold for the minimum count for the bag
 of words. Mutiple thresholds have been tested, but no significant
@@ -99,18 +102,14 @@ improvement on the accuracy rate. Therefore, the action 2 will not be
 taken.
 
 After applying TF-IDF processing, the third tool, to the dataset, its
-accuracy increases to 43.56%
+accuracy increases to 36.2%. Therefore, we decide to adopt TF-IDF.
 
     X = as.matrix(DTM)
     TF <- X / rowSums(X)
     EXI_NUM<-apply(X>0, 2, function(x){table(x)['TRUE']})
-    IDF<-as.numeric(1 + log(nrow(X)/EXI_NUM))
+    IDF<-as.numeric(log(nrow(X)/EXI_NUM + 1))
     TFIDF = data.frame(t(t(TF)*IDF))
-    test(as.matrix(TFIDF))
-
-    ## [1] 0.3624
-
-    X = TFIDF
+    X <- TFIDF
 
 The last tool we consider is PCA. PCA requires to select the optimal
 number of principal components. Therefore, we draw the following plot to
@@ -123,10 +122,10 @@ we tested multiple options mannually.
 
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/PCA-1.png)
 
-According to below curve, when we select the 105 most important
-components in PCA, we have further increased our accuracy to 50.12%
+According to below curve, when we select the 124 most important
+components in PCA, we have further increased our accuracy to 43.76%.
 
-    pca_list = seq(101, 110, 1)
+    pca_list = seq(115, 125, 1)
     acc = NULL
     for (i in pca_list){
       X_test = pca$x[, 1:i]
@@ -137,3 +136,6 @@ components in PCA, we have further increased our accuracy to 50.12%
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/pca_-1.png)
 
     X = pca$x[, 1:105]
+    max(acc)
+
+    ## [1] 0.4376
