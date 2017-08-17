@@ -26,13 +26,13 @@ the highest accuracy in naive bayes. According to the plot, 0.895 is our
 best choice as the percentage, which gives the accuracy of 37.5%.
 
     acc = NULL
-    per_list = seq(0.855, 0.90, 0.01)
+    per_list = seq(0.875, 0.925, 0.01)
     for (i in per_list){
       DTM_test = removeSparseTerms(DTM, i)
       X = as.matrix(DTM_test)
       acc = append(acc, test(X))
     }
-    plot(per_list, acc, type='b')
+    plot(per_list, acc, type='b', ylab='Accuracy', xlab='Percentage Threshold')
 
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/test_term_percentage-1.png)
 
@@ -67,6 +67,7 @@ we tested multiple options mannually.
     plot(cumsum((pca$sdev)^2)/sum(pca$sdev^2), pch=19, cex=0.1, ylab='Cumulative Variance', xlab='Number of Components' )
 
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/PCA-1.png)
+
 According to below curve, when we select the 105 most important
 components in PCA, we have further increased our accuracy to 50.12%
 
@@ -76,4 +77,8 @@ components in PCA, we have further increased our accuracy to 50.12%
       X_test = pca$x[, 1:i]
       acc = append(acc, test(X_test))
     }
+    plot(pca_list, acc, pch=19, cex=0.1, ylab='Accuracy', xlab='Number of Components')
+
+![](AuthorAttrition_Bruce_files/figure-markdown_strict/pca_-1.png)
+
     X = pca$x[, 1:105]
