@@ -5,7 +5,7 @@ Which airport is the worst airport to fly in?
 
 Our answer is STL!
 
-<br/> We reach our conclusion by looking at the average cancellation
+We reach our conclusion by looking at the average cancellation
 rate for all the destination airports, and the average delay time both
 total and for different reasons for all the destination. In addition, we
 only look at airports with more than 10 flights from Austin in total in
