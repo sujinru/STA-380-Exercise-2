@@ -130,9 +130,7 @@ Comparing accuracies of different models, we prefer randomForest with 0.5% sparc
 To figure out whose articles are hard to distinguish, we calculated the classification accuracy of each author using randomForest model. Darren Schuettler, ScottHillis, WilliamKazer, DavidLawder, EdnaFernandes have lowest classification accuracy comparing to others. Therefore, their articles are hard to distinguish.
 
 ```{r}
-library(foreach)
 library(pander)
-library(randomForest)
 rfmodel <- randomForest(x=X_train,y=factor(train_y),ntree=100)
 predtest = predict(rfmodel,newdata=X_test)
 conf_matrix = table(predtest,test_y)

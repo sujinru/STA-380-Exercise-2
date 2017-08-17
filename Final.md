@@ -177,7 +177,7 @@ occured when we didn't remove anything.
     X = as.matrix(DTM)
     print(paste('Accuracy for RandomForest is',testRF(X),sep=' '))
 
-    ## [1] "Accuracy for RandomForest is 0.6324"
+ ?? ??## [1] "Accuracy for RandomForest is 0.6324"
 
 After applying TF-IDF processing, its accuracy didn't change much.
 
@@ -189,6 +189,52 @@ After applying TF-IDF processing, its accuracy didn't change much.
     TFIDF = data.frame(t(t(TF)*IDF))
     print(paste('Accuracy for RandomForest after TFIDF is',testRF(X),sep=' '))
 
-    ## [1] "Accuracy for RandomForest after TFIDF is 0.6336"
+ ?? ??## [1] "Accuracy for RandomForest after TFIDF is 0.6336"
 
 We also considered PCA before using RandomForest, however, accuracy reduced to about 52%.
+
+Comparing accuracies of different models, we prefer randomForest with 0.5% sparcity removed.
+
+To figure out whose articles are hard to distinguish, we calculated the classification accuracy of each author using randomForest model. Darren Schuettler, ScottHillis, WilliamKazer, DavidLawder, EdnaFernandes have lowest classification accuracy comparing to others. Therefore, their articles are hard to distinguish.
+
+
+    library(pander)
+
+    rfmodel <- randomForest(x=X_train,y=factor(train_y),ntree=100)
+    predtest = predict(rfmodel,newdata=X_test)
+    conf_matrix = table(predtest,test_y)
+
+    author_acc = foreach (i = 1:50, .combine = 'c') %do% {
+      conf_matrix[i,i]/sum(conf_matrix[,i])
+    }
+
+    names(author_acc) = rownames(conf_matrix)
+    pander(sort(author_acc)[1:5])
+
+<table>
+<colgroup>
+<col width="18%" />
+<col width="21%" />
+<col width="18%" />
+<col width="18%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">DavidLawder</th>
+<th align="center">JaneMacartney</th>
+<th align="center">ScottHillis</th>
+<th align="center">EricAuchard</th>
+<th align="center">AlexanderSmith</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.14</td>
+<td align="center">0.2</td>
+<td align="center">0.2</td>
+<td align="center">0.22</td>
+<td align="center">0.24</td>
+</tr>
+</tbody>
+</table>
