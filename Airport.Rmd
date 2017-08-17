@@ -2,14 +2,16 @@
 title: "airport"
 author: "Yue"
 date: "8/17/2017"
-output: html_document
+output: md_document
 ---
 ## Which airport is the worst airport to fly in? 
 <br/> Our answer is STL!
+
 <br/> We reach our conclusion by looking at the average cancellation rate for all the destination airports, and the average delay time both total and for different reasons for all the destination. In addition, we only look at airports with more than 10 flights from Austin in total in our dataset to try to tackle some outliers.
 
-```{r}
+```{r, include=FALSE}
 # install useful library
+options(warn=-1)
 library(dplyr)
 library(nycflights13)
 library(maps)
@@ -19,7 +21,7 @@ library(RColorBrewer)
 ```
 
 ```{r}
-flight = read.csv("ABIA.csv")
+flight = read.csv("~/Downloads/ABIA.csv")
 # get the total flight to one 
 flight["count"] = 1
 # only look at flights leaving Austin
