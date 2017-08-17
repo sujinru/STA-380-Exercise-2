@@ -111,7 +111,7 @@ X = as.matrix(DTM)
 print(paste('Accuracy for RandomForest is',testRF(X),'; Accuracy for NaiveBayes is',testNB(X,smoothcount=1/50),sep=' '))
 ```
 
-After applying TF-IDF processing, its Accuracy didn't change much.
+After applying TF-IDF processing, its accuracy didn't change much.
 
 ```{r}
 #TFIDF
@@ -123,4 +123,25 @@ TFIDF = data.frame(t(t(TF)*IDF))
 print(paste('Accuracy for RandomForest after TFIDF is',testRF(X),'; Accuracy for NaiveBayes after TFIDF is',testNB(X,smoothcount=1/50),sep=' '))
 ```
 
-However, using PCA to extract principle components before 
+We also considered PCA before using RandomForest, however, accuracy reduced to about 52%.
+
+Comparing accuracies of different models, we prefer randomForest with 0.5% sparcity removed.
+
+To figure out whose articles are hard to distinguish, we calculated the classification accuracy of each author using randomForest model. Darren Schuettler, ScottHillis, WilliamKazer, DavidLawder, EdnaFernandes have lowest classification accuracy comparing to others. Therefore, their articles are hard to distinguish.
+
+```{r}
+library(foreach)
+library(pander)
+library(randomForest)
+rfmodel <- randomForest(x=X_train,y=factor(train_y),ntree=100)
+predtest = predict(rfmodel,newdata=X_test)
+conf_matrix = table(predtest,test_y)
+
+author_acc = foreach (i = 1:50, .combine = 'c') %do% {
+  conf_matrix[i,i]/sum(conf_matrix[,i])
+}
+
+names(author_acc) = rownames(conf_matrix)
+pander(sort(author_acc)[1:5])
+```
+
