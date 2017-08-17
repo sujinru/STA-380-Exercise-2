@@ -4,8 +4,8 @@ author: "Jinru Su"
 date: "8/16/2017"
 output: md_document
 ---
-To set up the analysis, the first step is to read in all associated text files.
-```{r setup, include=FALSE}
+To set up the analysis, the first step is to read in all associated text files and create related functions.
+```{r setup}
 # Read in all texts
 library(tm)
 library(naivebayes)

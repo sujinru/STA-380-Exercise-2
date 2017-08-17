@@ -1,5 +1,60 @@
 To set up the analysis, the first step is to read in all associated text
-files.
+files and create related functions.
+
+    # Read in all texts
+    library(tm)
+
+    ## Loading required package: NLP
+
+    library(naivebayes)
+    train_author_dirs = Sys.glob('~/Downloads/ReutersC50/C50train/*')
+    file_list = NULL
+    labels = NULL
+    for(author in train_author_dirs) {
+      author_name = substring(author, first=29)
+      files_to_add = Sys.glob(paste0(author, '/*.txt'))
+      file_list = append(file_list, files_to_add)
+      labels = append(labels, rep(author_name, length(files_to_add)))
+    }
+
+    test_author_dirs = Sys.glob('~/Downloads/ReutersC50/C50test/*')
+    for(author in test_author_dirs) {
+      author_name = substring(author, first=29)
+      files_to_add = Sys.glob(paste0(author, '/*.txt'))
+      file_list = append(file_list, files_to_add)
+      labels = append(labels, rep(author_name, length(files_to_add)))
+    }
+
+    readerPlain = function(fname){
+      readPlain(elem=list(content=readLines(fname)), 
+                id=fname, language='en')}
+
+    all_docs = lapply(file_list, readerPlain)
+    names(all_docs) = file_list
+
+    my_corpus = Corpus(VectorSource(all_docs))
+
+    # Create labels for traing and test set
+    clean_labels = NULL
+    for (i in 1:5000){
+      clean_labels = append(clean_labels, strsplit(labels[i], '/')[[1]][3])
+    }
+    train_y = clean_labels[1:2500]
+    test_y = clean_labels[2501:5000]
+
+    # function for train and test, given the training matrix
+    test = function(X){
+      train_X = X[1:2500,]
+      test_X = X[2501:5000,]
+      model <- naive_bayes(x = train_X, y = train_y)
+      preds <- predict(model, newdata = test_X)
+      conf_matrix <- table(preds, test_y)
+      sum = 0
+      for (i in 1:50){
+        sum = sum +  conf_matrix[i, i]
+      }
+      return(sum/2500)
+    }
 
 Before further processing the data, we did pre-processing such as
 removing numbers and punctuations from the original data set.
