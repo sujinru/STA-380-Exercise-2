@@ -118,6 +118,5 @@ for (i in pca_list){
   acc = append(acc, test(X_test))
 }
 plot(pca_list, acc, type='b', ylab='Accuracy', xlab='Number of Components')
-X = pca$x[, 1:105]
 max(acc)
 ```

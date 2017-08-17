@@ -135,7 +135,6 @@ components in PCA, we have further increased our accuracy to 43.76%.
 
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/pca_-1.png)
 
-    X = pca$x[, 1:105]
     max(acc)
 
     ## [1] 0.4376
