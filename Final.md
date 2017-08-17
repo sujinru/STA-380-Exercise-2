@@ -165,30 +165,6 @@ the parameter ntree1=100
       return (sum/2500)
     }
 
-    #Test Naive Bayes
-    library(foreach)
-    testNB<-function(X,smoothcount){
-      X_train = X[1:2500,]
-      X_test = X[2501:5000,]
-      
-      WP = matrix(0,50,dim(X_test)[2])
-      for(i in 1:50){
-        wp = colSums(X_train[((i-1)*50):(i*50),] + smoothcount)
-        WP[i,] = wp/sum(wp)
-      }
-      colnames(WP) = colnames(X_train)
-      rownames(WP) = unique(train_y)
-      author = foreach(i = 1:2500, .combine='c') %do%{
-        P = X_test[i,]%*%t(log(WP))
-        rownames(WP)[P == max(P)][1]
-      }
-      conf_matrix = table(author,test_y)
-      sum=0
-      for(i in 1:dim(conf_matrix)[1]){
-         sum = sum + conf_matrix[i,i]
-      }
-      return(sum/2500)
-    }
 
 Similary, we iterated through sparcities, and the highest accuracy
 occured when we didn't remove anything.
@@ -196,11 +172,11 @@ occured when we didn't remove anything.
     DTM = DocumentTermMatrix(my_corpus)
     DTM = removeSparseTerms(DTM,0.995)
     X = as.matrix(DTM)
-    print(paste('Accuracy for RandomForest is',testRF(X),'; Accuracy for NaiveBayes is',testNB(X,smoothcount=1/50),sep=' '))
+    print(paste('Accuracy for RandomForest is',testRF(X),sep=' '))
 
-    ## [1] "Accuracy for RandomForest is 0.6324 ; Accuracy for NaiveBayes is 0.6488"
+    ## [1] "Accuracy for RandomForest is 0.6324"
 
-After applying TF-IDF processing, its Accuracy
+After applying TF-IDF processing, its accuracy didn't change much.
 
     #TFIDF
     X = as.matrix(DTM)
@@ -208,6 +184,8 @@ After applying TF-IDF processing, its Accuracy
     EXI_NUM<-apply(X>0, 2, function(x){table(x)['TRUE']})
     IDF<-as.numeric(log(1 + nrow(X)/EXI_NUM))
     TFIDF = data.frame(t(t(TF)*IDF))
-    print(paste('Accuracy for RandomForest after TFIDF is',testRF(X),'; Accuracy for NaiveBayes after TFIDF is',testNB(X,smoothcount=1/50),sep=' '))
+    print(paste('Accuracy for RandomForest after TFIDF is',testRF(X),sep=' '))
 
-    ## [1] "Accuracy for RandomForest after TFIDF is 0.6336 ; Accuracy for NaiveBayes after TFIDF is 0.6488"
+    ## [1] "Accuracy for RandomForest after TFIDF is 0.6336"
+
+We also considered PCA before using RandomForest, however, accuracy reduced to about 52%.
