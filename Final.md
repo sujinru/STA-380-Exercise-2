@@ -142,7 +142,7 @@ components in PCA, we have further increased our accuracy to 50.12%
     X = pca$x[, 1:105]
     
 
-Model 2 RandomForest
+Model 2 - RandomForest
 ---------------------
 
 The second model selected was RandomForest. In terms of both saving
