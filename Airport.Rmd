@@ -58,6 +58,9 @@ cancelled_location = merge(merged_delete, usairports, by.x="Dest", by.y = "faa",
 
 ```{r}
 # plot the rate of cancellation
+colourCount = length(unique(cancelled_location$Dest))
+getPalette = colorRampPalette(brewer.pal(12, "Set3"))
+
 states = map_data('state')
 ggplot(data = states) + 
   geom_polygon(aes(x = long, y = lat, fill = region, group = group), color = "white") + 
