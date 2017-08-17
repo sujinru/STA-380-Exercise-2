@@ -19,17 +19,15 @@ for(author in test_author_dirs) {
   labels = append(labels, rep(author_name, length(files_to_add)))
 }
 
-# Need a more clever regex to get better names here
+# Read in texts
 readerPlain = function(fname){
   readPlain(elem=list(content=readLines(fname)), 
             id=fname, language='en')}
 
 all_docs = lapply(file_list, readerPlain)
 names(all_docs) = file_list
-names(all_docs) = sub('.txt', '', names(all_docs))
 
 my_corpus = Corpus(VectorSource(all_docs))
-names(my_corpus) = file_list
 
 # Preprocessing: removing
 my_corpus = tm_map(my_corpus, content_transformer(tolower)) # make everything lowercase
@@ -92,4 +90,3 @@ for (i in 1:50){
   sum = sum +  conf_matrix[i, i]
 }
 sum/2500
-
