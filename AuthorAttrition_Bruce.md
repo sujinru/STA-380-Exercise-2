@@ -77,7 +77,7 @@ components in PCA, we have further increased our accuracy to 50.12%
       X_test = pca$x[, 1:i]
       acc = append(acc, test(X_test))
     }
-    plot(pca_list, acc, pch=19, cex=0.1, ylab='Accuracy', xlab='Number of Components')
+    plot(pca_list, acc, type='b', ylab='Accuracy', xlab='Number of Components')
 
 ![](AuthorAttrition_Bruce_files/figure-markdown_strict/pca_-1.png)
 

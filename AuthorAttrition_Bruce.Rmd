@@ -117,6 +117,6 @@ for (i in pca_list){
   X_test = pca$x[, 1:i]
   acc = append(acc, test(X_test))
 }
-plot(pca_list, acc, pch=19, cex=0.1, ylab='Accuracy', xlab='Number of Components')
+plot(pca_list, acc, type='b', ylab='Accuracy', xlab='Number of Components')
 X = pca$x[, 1:105]
 ```
