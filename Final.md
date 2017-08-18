@@ -541,7 +541,7 @@ Now run the 'apriori' algorithm
 
 We chose support= 0.001 because higher levels of support gave too few
 rules for us to inspect. We chose confidence = 0.5 because we want to
-make sure that if iem on rhs appears, item on lhs will also appear.
+make sure that if item on rhs appears, item on lhs will also appear.
 However, this only accounts for how popular the items on rhs are, but
 not those on the lhs. If rhs items appear regularly in general, there is
 a greater chance that items on the rhs will contain items on the lhs. To
