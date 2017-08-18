@@ -291,7 +291,7 @@ my_corpus = tm_map(my_corpus,content_transformer(removeWords),union(stopwords('e
 ```
 
 #Model 2 RandomForest
-The second model selected was RandomForest. In terms of both saving computational cost and remaining a relatively high accuracy, we choose the parameter ntree1=100
+The second model selected was RandomForest. In terms of both saving computational cost and remaining a relatively high accuracy, we choose the parameter ntree=100
 
 ```{r}
 library(randomForest)
