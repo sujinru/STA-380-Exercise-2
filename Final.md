@@ -258,7 +258,7 @@ Model 2 - RandomForest
 
 The second model selected was RandomForest. In terms of both saving
 computational cost and remaining a relatively high accuracy, we choose
-the parameter ntree1=100
+the parameter ntree=100
 
     library(randomForest)
 
