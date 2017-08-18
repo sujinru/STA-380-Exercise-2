@@ -1,6 +1,6 @@
 ---
 title: "Final"
-author: "Jinru Su"
+author: "Jinru Su, Korawat Tanwisuth, Suyi Tu, Yue Wang"
 date: "8/17/2017"
 output: md_document
 ---
