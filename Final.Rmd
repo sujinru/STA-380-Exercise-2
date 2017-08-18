@@ -451,4 +451,4 @@ We chose support= 0.001 because higher levels of support gave too few rules for 
 
 **Recommendation**
 
-Our final result also makes sense. With this insight, we can give this to information to store managers to help plan inventory for these perishable items. Also, this information can be used for product placement strategy. For example, store manager can put ham, cheese, and white bread near each other to stimulate more sales
+Our final result also makes sense. With this insight, we can give this information to store managers to help plan inventory for these perishable items. Also, this information can be used for product placement strategy. For example, store manager can put ham, cheese, and white bread near each other to stimulate more sales
