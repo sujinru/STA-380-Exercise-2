@@ -281,14 +281,14 @@ the parameter ntree1=100
 
 
 Similary, we iterated through sparcities, and the highest accuracy
-occured when we didn't remove anything.
+occured when we only removed 0.5% sparcity.
 
     DTM = DocumentTermMatrix(my_corpus)
     DTM = removeSparseTerms(DTM,0.995)
     X = as.matrix(DTM)
     print(paste('Accuracy for RandomForest is',testRF(X),sep=' '))
 
- ?? ??## [1] "Accuracy for RandomForest is 0.6324"
+[1] "Accuracy for RandomForest is 0.6324"
 
 After applying TF-IDF processing, its accuracy didn't change much.
 
@@ -300,7 +300,7 @@ After applying TF-IDF processing, its accuracy didn't change much.
     TFIDF = data.frame(t(t(TF)*IDF))
     print(paste('Accuracy for RandomForest after TFIDF is',testRF(X),sep=' '))
 
- ?? ??## [1] "Accuracy for RandomForest after TFIDF is 0.6336"
+[1] "Accuracy for RandomForest after TFIDF is 0.6336"
 
 We also considered PCA before using RandomForest, however, accuracy reduced to about 52%.
 
